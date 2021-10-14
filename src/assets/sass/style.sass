@@ -1,0 +1,334 @@
+@import "./variables"
+
+a-navBarDesk
+  background-color: $main-color
+  height: 163px
+  width: 100%
+  top: 0
+  left: 0
+  position: fixed
+  z-index: 103
+
+
+a-imageIcon
+  position: absolute
+  width: 127px
+  height: 115px
+  left: 26px
+  top: 12px
+  background: url('../r2d2.png')
+  background-size: contain
+
+a-mainColor
+  color: $main-color
+
+a-siteNameTextD
+  position: absolute
+  width: 40%
+  height: 56px
+  left: 153px
+  top: 41px
+  font-style: italic
+  font-weight: normal
+  font-size: 48px
+  line-height: 56px
+  color: #FFFFFF
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+
+a-shortView
+  position: relative
+  width: 460px
+  height: 270px
+  display: block
+  border: 1px solid #13B4E7
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+  border-radius: 10px
+  float: left
+  margin-right: 20px
+  margin-left: 20px
+
+a-pnum
+  color: $main-color
+  padding: 4px 9px
+  text-decoration: none
+  transition: background-color .3s
+  border: 3px solid $main-color
+  border-radius: 15px
+  margin: 0 4px
+
+a-bookmark
+  position: absolute
+  width: 250px
+  height: 0px
+  top: 131px
+  border-left: 10px solid transparent
+  border-right: 10px solid transparent
+  text-align: center
+  line-height: 32px
+
+a-col
+  height: 300px
+  width: 100%
+  margin-bottom: 10px
+  display: block
+  margin-left: auto
+  margin-right: auto
+
+footer
+  background-color: $main-color
+  clear: both
+  bottom: 0
+  margin-top: -20px
+  height: 20px
+  min-height: 20px
+  width: 100%
+  position: fixed
+  text-align: right
+  color: #FFFFFF
+
+*
+  padding: 0
+  margin: 0
+
+html
+  overflow-y: scroll
+
+body
+  display: flex
+  flex-direction: column
+
+
+
+a-divider
+  height: 220px
+  display: block
+
+a-paginator
+  text-align: center
+  width: 100%
+  height: 70px
+  display: inline-block
+
+a-navsearch
+  top: 55px
+  left: 70%
+  display: inline-block
+  position: absolute
+  height: 34px
+  width: 400px
+
+input
+  width: 277px
+  height: 30px
+  background: #FFFFFF
+  border-radius: 10px
+
+a-searchbtn
+  min-width: 105px
+  width: 105px
+  min-height: 34px
+  height: 34px
+  background: #FFFFFF
+  border: 3px solid #0CA4D4
+  box-sizing: border-box
+  margin-top: 0
+  border-radius: 10px
+  text-align: center
+  display: inline-block
+  position: fixed
+  margin-left: 3px
+
+a-content
+  justify-content: center
+  display: grid
+
+.sidebarBtn
+  right: 0
+  top: 170px
+  position: absolute
+
+.push
+  color: #FFFFFF
+  border: 3px solid #ffffff
+  z-index: 102
+
+.sidebar
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  position: absolute
+  flex-direction: column
+  width: 400px
+  height: calc(100vh - 50px)
+  padding-top: 48px
+  background-color: $main-color
+  right: 0
+  top: 163px
+  z-index: 101
+
+  .sidebar-element
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 400px
+    height: 60px
+    margin-bottom: 8px
+    cursor: pointer
+    color: #fefefe
+    background-color: #242424
+  .show
+    &-enter, &-leave-to
+      opacity: 0
+      transform: translateX(-400px)
+    &-enter-active, &-leave-active
+      transition: all 500ms
+
+.mnavbar
+  height: 95px
+
+.micon
+  width: 90px
+  height: 85px
+  left: 0px
+  top: 3px
+
+.mName
+  left: 75px
+  top: 18px
+  font-size: 26px
+  line-height: 28px
+
+a-bar
+  position: absolute
+  width: 90px
+  height: 95px
+  background: $main-color
+  border: 2px solid #0CA4D4
+  box-sizing: border-box
+  top: 0
+  right: 0
+  z-index: 110
+
+a-barline
+  width: 65px
+  height: 10px
+  background: #FFFFFF
+  border-radius: 20px
+  display: block
+  margin-top: 9px
+  margin-left: 8px
+
+.mMenu
+  margin-top: 21px
+  margin-left: 4px
+
+.mCard
+  width: 320px
+  height: 180px
+
+input[type=range]
+  width: 299px
+  -webkit-appearance: none
+  -moz-appearance: none
+  appearance: none
+  outline: none
+  position: absolute
+  margin-top: 148px
+  margin-left: 35px
+  top: 0
+  bottom: 0
+  background-color: transparent
+  pointer-events: none
+
+.slider-track
+  width: 275px
+  height: 5px
+  background-color: #ffffff
+  margin-top: 160px
+  margin-left: 47px
+  top: 0
+  bottom: 0
+  border-radius: 5px
+  position: absolute
+
+input[type="range"]::-webkit-slider-thumb
+  -webkit-appearance: none
+  height: 1.7em
+  width: 1.7em
+  background-color: #ffffff
+  cursor: pointer
+  border-radius: 10px
+  pointer-events: auto
+  margin-top: -9px
+
+input[type="range"]::-moz-range-thumb
+  -webkit-appearance: none
+  height: 1.7em
+  width: 1.7em
+  background-color: #ffffff
+  cursor: pointer
+  border-radius: 50%
+  pointer-events: auto
+
+input[type="range"]::-ms-thumb
+  appearance: none
+  height: 1.7em
+  width: 1.7em
+  background-color: #ffffff
+  cursor: pointer
+  border-radius: 50%
+  pointer-events: auto
+
+input[type="range"]:active::-webkit-slider-thumb
+  background-color: $main-color
+  border: 3px solid #ffffff
+
+.range-block
+  margin-left: 45px
+  margin-top: 10px
+
+.fstylew
+  color: #ffffff
+
+.modal-mask
+  position: fixed
+  z-index: 9998
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.5)
+  display: table
+
+
+.modal-wrapper
+  display: table-cell
+  vertical-align: middle
+
+.modal-container
+  width: 300px
+  margin: 0px auto
+  padding: 20px 30px
+  background-color: #fff
+  border-radius: 2px
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33)
+  font-family: Helvetica, Arial, sans-serif
+
+.modal-header h3
+  margin-top: 0
+  color: #42b983
+
+.modal-body
+  margin: 20px 0
+
+.modal-default-button
+  display: block
+  margin-top: 1rem
+
+.modal-enter-active,
+.modal-leave-active
+  transition: opacity 0.5s ease
+
+.modal-enter-from,
+.modal-leave-to
+  opacity: 0
