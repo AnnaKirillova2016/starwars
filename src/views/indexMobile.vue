@@ -3,28 +3,54 @@
     <a-imageIcon class="micon"/>
     <a-siteNameTextD class="mName">Star Wars Enciclopedia</a-siteNameTextD>
     <a-bar>
-      <div class="mMenu">
+      <div class="mMenu" @click="openMenu=!openMenu">
         <a-barline/>
         <a-barline/>
         <a-barline/>
       </div>
     </a-bar>
   </a-navBarDesk>
-  <mobile-menu></mobile-menu>
-  <a-divider style="height: 95px"/>
+  <mobile-menu  v-if="openMenu"></mobile-menu>
+  <a-divider style="height: 105px"/>
   <a-content>
-   <a-shortView class="mCard">text</a-shortView>
+    <a-col class="mCol" v-for="(item, index) in arrData.results"
+           v-bind:key="index">
+      <a-shortView class="mCard">{{item.title}}</a-shortView>
+    </a-col>
   </a-content>
 </template>
 
 <script>
 import mobileMenu from "../components/mobileMenu.vue"
+import {mapActions, mapState} from "vuex"
 
 export default {
   name: "indexMobile",
   components: {
     mobileMenu
   },
+  computed:{
+    ...mapState(["originList"]),
+  },
+  data() {
+    return {
+      Active: 'films',
+      openMenu: false ,
+      arrData:[],
+    }
+  },
+  methods: {
+    ...mapActions(['getFromApi']),
+    async getArrayData(link){
+      let req = {url: link, single: false}
+      await this.getFromApi(req)
+      this.arrData = this.originList
+      //console.log(this.arrData)
+    }
+  },
+  mounted() {
+    this.getArrayData(this.Active)
+  }
 }
 </script>
 

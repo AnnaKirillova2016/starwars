@@ -146,6 +146,7 @@ export default {
     },
     popupW(j){
       this.currItem = this.getItem(this.Active + '/' + j)
+      console.log(this.currItem)
       this.showItem = !this.showItem
     },
     changeTab(tab){
@@ -170,11 +171,12 @@ export default {
       this.sText =''
     },
     async getArrayData(link){
-      await this.getFromApi(link)
+      let req = {url: link, single: false}
+      await this.getFromApi(req)
       this.arrData = this.originList
       this.renderViewData()
       this.pagesCalc()
-      console.log(this.arrData)
+      //console.log(this.arrData)
     },
     renderViewData(){
       let count = this.arrData.results.length < 11 ? this.arrData.results.length : 10
@@ -229,8 +231,9 @@ export default {
 
     },
     async getItem(link){
-      return await this.getFromApi(link)
-
+      let req = {url: link, single: true}
+      let result = await this.getFromApi(req)
+      this.currItem = result
     }
   },
   mounted() {

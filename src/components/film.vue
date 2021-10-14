@@ -5,6 +5,12 @@
 
         <div class="modal-body">
           <slot name="body">
+            <div class="modal-header">
+              <slot name="header">
+                Star Wars episode: {{item.episode_id}}. {{item.title}}
+              </slot>
+            </div>
+
             <button v-on:click="view">Console</button>
             <button v-on:click="closeW">Close</button>
           </slot>
