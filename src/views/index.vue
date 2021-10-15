@@ -16,7 +16,7 @@ export default {
   },
   computed:{
     resolution(){
-      return window.matchMedia("(min-width: 1300px)").matches
+      return window.matchMedia("(min-width: 1200px)").matches
     }
   },
 }

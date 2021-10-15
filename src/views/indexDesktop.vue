@@ -176,7 +176,7 @@ export default {
       this.arrData = this.originList
       this.renderViewData()
       this.pagesCalc()
-      //console.log(this.arrData)
+      console.log(this.arrData)
     },
     renderViewData(){
       let count = this.arrData.results.length < 11 ? this.arrData.results.length : 10
