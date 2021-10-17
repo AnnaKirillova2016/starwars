@@ -129,7 +129,7 @@ a-searchbtn
   min-height: 34px
   height: 34px
   background: #FFFFFF
-  border: 3px solid #0CA4D4
+  border: 3px solid $second-color
   box-sizing: border-box
   margin-top: 0
   border-radius: 10px
@@ -185,6 +185,7 @@ a-content
 
 .mnavbar
   height: 95px
+  position: absolute
 
 .micon
   width: 90px
@@ -203,11 +204,12 @@ a-bar
   width: 90px
   height: 95px
   background: $main-color
-  border: 2px solid #0CA4D4
+  border: 2px solid $second-color
   box-sizing: border-box
   top: 0
   right: 0
   z-index: 110
+
 
 a-barline
   width: 65px
@@ -224,7 +226,7 @@ a-barline
   z-index: 110
 
 .mCard
-  width: 320px
+  width: 300px
   height: 180px
 
 input[type=range]
@@ -307,7 +309,7 @@ input[type="range"]:active::-webkit-slider-thumb
   vertical-align: middle
 
 .modal-container
-  width: 300px
+  width: 500px
   margin: 0px auto
   padding: 20px 30px
   background-color: #fff
@@ -315,9 +317,10 @@ input[type="range"]:active::-webkit-slider-thumb
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33)
   font-family: Helvetica, Arial, sans-serif
 
-.modal-header h3
+.modal-header h3, h1
+  text-align: center
   margin-top: 0
-  color: #42b983
+  color: $main-color
 
 .modal-body
   margin: 20px 0
@@ -347,11 +350,12 @@ a-bodyMenu
   width: 100%
   z-index: 100
 
+
 a-mmbtn
   width: 80%
   height: 75px
   background: $main-color
-  border: 2px solid #0CA4D4
+  border: 2px solid $second-color
   box-sizing: border-box
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
   color: white
@@ -379,3 +383,20 @@ input[type="checkbox"]
 
 .chb-color
   color: #ffffff
+
+.msearch
+  left: 3%
+  position: relative
+  width: 100%
+  align-content: center
+  display: block
+
+a-accordion
+  background: linear-gradient(#13B4E7, #0CA4D4)
+  color: #fff
+  padding-top: 5px
+  box-shadow: 0 1px 2px #ccc
+  border-radius: 3px
+  display: block
+  height: 30px
+  text-align: center

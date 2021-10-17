@@ -98,7 +98,6 @@
 
   <film v-if="Active=='films' && showItem==true"
       :showItem = showItem
-      :item = "currItem"
       @closeW="itemClose"/>
 
   <footer><span style="margin-right: 20px">disigned for swapi.dev</span></footer>
@@ -120,7 +119,7 @@ export default {
       bFilms: 'border-bottom: 32px solid #FFFFFF; color: #13B4E7; z-index: 101',
       bPeople: 'border-bottom: 32px solid #0CA4D5; color: #FFFFFF; left: 263px; z-index: 100',
       bShips: 'border-bottom: 32px solid #0CA4D5; color: #FFFFFF; left: 526px; z-index: 100',
-      arrData:[],
+      arrData: [],
       renderArray: [],
       pages: 0,
       currentPage: 0,
@@ -129,38 +128,37 @@ export default {
       maxValue: 0,
       minValue: 0,
       showItem: false,
-      currItem: ''
+      currItem: '',
     }
   },
-  computed:{
+  computed: {
     ...mapState(["originList"]),
-    checkFill(){
+    checkFill() {
       return this.arrData.length > 0 ? this.arrData : this.originList
     },
   },
-  methods:{
+  methods: {
     ...mapActions(['getFromApi']),
-    itemClose(close){
+    itemClose(close) {
       this.showItem = close
       this.currItem = ''
     },
-    popupW(j){
+    popupW(j) {
       this.currItem = this.getItem(this.Active + '/' + j)
-      console.log(this.currItem)
       this.showItem = !this.showItem
     },
-    changeTab(tab){
-      if(tab == 'films'){
+    changeTab(tab) {
+      if (tab == 'films') {
         this.bFilms = 'border-bottom: 32px solid #FFFFFF; color: #13B4E7; z-index: 101'
         this.bPeople = 'border-bottom: 32px solid #0CA4D5; color: #FFFFFF; left: 263px; z-index: 100'
         this.bShips = 'border-bottom: 32px solid #0CA4D5; color: #FFFFFF; left: 526px; z-index: 100'
         this.Active = 'films'
-      }else if(tab == 'people'){
+      } else if (tab == 'people') {
         this.bFilms = 'border-bottom: 32px solid #0CA4D5; color: #FFFFFF; z-index: 100'
         this.bPeople = 'border-bottom: 32px solid #FFFFFF; color: #13B4E7; left: 263px; z-index: 101'
         this.bShips = 'border-bottom: 32px solid #0CA4D5; color: #FFFFFF; left: 526px; z-index: 100'
         this.Active = 'people'
-      }else{
+      } else {
         this.bFilms = 'border-bottom: 32px solid #0CA4D5; color: #FFFFFF; z-index: 100'
         this.bPeople = 'border-bottom: 32px solid #0CA4D5; color: #FFFFFF; left: 263px; z-index: 100'
         this.bShips = 'border-bottom: 32px solid #FFFFFF; color: #13B4E7; left: 526px; z-index: 101'
@@ -168,9 +166,9 @@ export default {
       }
       this.getArrayData(this.Active)
       this.currentPage = 1
-      this.sText =''
+      this.sText = ''
     },
-    async getArrayData(link){
+    async getArrayData(link) {
       let req = {url: link, single: false}
       await this.getFromApi(req)
       this.arrData = this.originList
@@ -178,31 +176,31 @@ export default {
       this.pagesCalc()
       console.log(this.arrData)
     },
-    renderViewData(){
+    renderViewData() {
       let count = this.arrData.results.length < 11 ? this.arrData.results.length : 10
       this.renderArray = []
-       for(let i=0;i < count; i++){
-        if(count%2 > 0 && i == count -1 ){
+      for (let i = 0; i < count; i++) {
+        if (count % 2 > 0 && i == count - 1) {
           this.renderArray.push([i])
           break
-        }else {
-          this.renderArray.push([i, i+=1])
+        } else {
+          this.renderArray.push([i, i += 1])
         }
       }
     },
-    pagesCalc(){
-      this.pages = parseInt(this.arrData.count) < 11 ? 0 : Math.ceil(parseInt(this.arrData.count)/10)
+    pagesCalc() {
+      this.pages = parseInt(this.arrData.count) < 11 ? 0 : Math.ceil(parseInt(this.arrData.count) / 10)
       //console.log(this.pages)
     },
-    chPage(index){
-      let link = this.sText !='' ? '/?search='+ this.sText +'&page='+index : '/?page='+index
+    chPage(index) {
+      let link = this.sText != '' ? '/?search=' + this.sText + '&page=' + index : '/?page=' + index
       this.getArrayData(this.Active + link)
       this.currentPage = index
     },
-    search(){
-      if(this.sText!='') {
+    search() {
+      if (this.sText != '') {
         this.getArrayData(this.Active + '/?search=' + this.sText)
-      }else {
+      } else {
         this.$moshaToast('Enter text to search!',
             {
               timeout: 2500,
@@ -215,14 +213,14 @@ export default {
             })
       }
     },
-    abroatSearch(){
-      this.sText =''
+    abroatSearch() {
+      this.sText = ''
       this.getArrayData(this.Active)
     },
-    updArrData(res){
-      if(res == null){
+    updArrData(res) {
+      if (res == null) {
         this.arrData = this.originList
-      }else{
+      } else {
         this.arrData = res
       }
       this.renderViewData()
@@ -230,11 +228,11 @@ export default {
       console.log(this.arrData)
 
     },
-    async getItem(link){
+    async getItem(link) {
       let req = {url: link, single: true}
       let result = await this.getFromApi(req)
       this.currItem = result
-    }
+    },
   },
   mounted() {
     this.getArrayData(this.Active)

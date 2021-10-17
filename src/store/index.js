@@ -3,7 +3,8 @@ import axios from "axios"
 export default createStore({
   state: {
     apiUrl: 'https://swapi.dev/api/',
-    originList: []
+    originList: [],
+    currItem: []
   },
   mutations: {
   },
@@ -18,6 +19,7 @@ export default createStore({
 
       if(data.single){
         let res = JSON.parse(JSON.stringify(result.data))
+        state.currItem = res
         return res
       }
       state.originList = JSON.parse(JSON.stringify(result.data))
