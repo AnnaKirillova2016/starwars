@@ -39,7 +39,7 @@
               <ul>
                 <li v-for="str in peopleList"
                     v-bind:key="str">
-                  {{str}}
+                  {{str.name}}
                 </li>
               </ul>
             </a-accordion-text>
@@ -51,7 +51,7 @@
               <ul>
                 <li v-for="str in speciesList"
                     v-bind:key="str">
-                  {{str}}
+                  {{str.name}}
                 </li>
               </ul>
             </a-accordion-text>
@@ -63,7 +63,7 @@
               <ul>
                 <li v-for="str in vehiclesList"
                     v-bind:key="str">
-                  {{str}}
+                  {{str.name}}
                 </li>
               </ul>
             </a-accordion-text>
@@ -113,11 +113,12 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
   name: "film",
   props:[
     'showItem',
+    'item'
   ],
   data(){
     return{
@@ -128,11 +129,7 @@ export default {
       speciesList: [],
       starshipsList: [],
       vehiclesList: [],
-      item: {}
     }
-  },
-  computed:{
-    ...mapState(['currItem'])
   },
   methods:{
     ...mapActions(['getFromApi']),
@@ -144,47 +141,45 @@ export default {
     },
     async fillItemArrays(tab) {
       this.openTab = tab
-      if (this.openTab == 'planets') {
+      if (this.openTab == 'planets' && this.item['planets']) {
         this.planetList = await this.getNames(this.item.planets)
       }
-      if (this.openTab == 'characters') {
-        this.peopleList = this.getNames(this.item.characters)
+      if (this.openTab == 'characters' && this.item['characters']) {
+        this.peopleList = await this.getNames(this.item.characters)
         console.log(this.peopleList)
       }
-      if (this.openTab == 'films') {
-        this.filmsList = this.getNames(this.item.films)
+      if (this.openTab == 'films' && this.item['films']) {
+        this.filmsList = await this.getNames(this.item.films)
         console.log(this.filmsList)
       }
-      if (this.openTab == 'species') {
-        this.speciesList = this.getNames(this.item.species)
+      if (this.openTab == 'species' && this.item['species']) {
+        this.speciesList = await this.getNames(this.item.species)
         console.log(this.speciesList)
       }
-      if (this.openTab == 'starships') {
-        this.starshipsList = this.getNames(this.item.starships)
+      if (this.openTab == 'starships' && this.item['starships']) {
+        this.starshipsList = await this.getNames(this.item.starships)
         console.log(this.starshipsList)
       }
-      if (this.openTab == 'vehicles') {
-        this.vehiclesList = this.getNames(this.item.vehicles)
+      if (this.openTab == 'vehicles' && this.item['vehicles']) {
+        this.vehiclesList = await this.getNames(this.item.vehicles)
         console.log(this.vehiclesList)
       }
     },
       async getNames(arr){
+        let res = []
         let link = ''
         let tmp = ''
         let req = {"url":link,"single":true}
         for(let i = 0; i <arr.length; i++){
           req.url = arr[i].replace('https://swapi.dev/api/','')
           tmp = await this.getFromApi(req)
-          this.planetList.push(tmp)
+          res.push(tmp)
         }
+        return res
 
       }
   },
-  beforeMount() {
-    if(this.item['planets']) {
-      this.planetList = this.getNames(this.item.planets)
-    }
-  }
+
 
 }
 </script>

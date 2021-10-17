@@ -98,6 +98,7 @@
 
   <film v-if="Active=='films' && showItem==true"
       :showItem = showItem
+      :item="currItem"
       @closeW="itemClose"/>
 
   <footer><span style="margin-right: 20px">disigned for swapi.dev</span></footer>
