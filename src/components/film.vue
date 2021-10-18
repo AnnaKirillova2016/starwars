@@ -1,30 +1,43 @@
 <template>
   <div class="modal-mask">
     <div class="modal-wrapper">
-      <div class="modal-container">
+      <div class="modal-container scrollbar">
 
         <div class="modal-body">
+          <div style="width: 100%;text-align: end">
+            <font-awesome-icon icon="times-circle" v-on:click="closeW" class="close-btn">
+            </font-awesome-icon>
+          </div>
           <slot name="body">
 
-            <div class="modal-header">
+            <div class="modal-header mh-mod">
               <slot name="header">
-                <h1>Star Wars episode: {{item.episode_id}}. {{item.title}}</h1>
+                <h1 style="height: 47px">Star Wars episode: {{item.episode_id}}.</h1>
+                <h1 style="height: 47px"> {{item.title}}</h1>
+                <h1 style="height: 70px; font-size: 24px"> {{item.release_date}}</h1>
               </slot>
             </div><br/>
 
-            Director: {{item.director}}<br/>
+<!--            Director: {{item.director}}-->
+            <div style="width: 100%; text-align: end">
+              Producer: {{item.producer}}
+            </div>
+            <div style="width: 100%; text-align: end">
+              Director: {{item.director}}
+            </div><br/><br/>
 
-
-            {{ item.opening_crawl }}
+            <div style="width: 100%; text-align: center">
+              <span v-html="crawl"/>
+            </div>
 
              <br/>
 
             <a-accordion @click="fillItemArrays('planets')">
               Planets
             </a-accordion>
-            <a-accordion-text v-if="openTab=='planets'">
-              Список планет
-              <ul>
+            <a-accordion-text v-if="openTab=='planets'" style="margin-left: 150px">
+              <img style="width: 200px" v-if="planetList.length == 0" src="../assets/gifs/loaderline.gif"/>
+              <ul style="text-align: center">
                 <li v-for="str in this.planetList"
                     v-bind:key="str">
                   {{str.name}}
@@ -34,9 +47,9 @@
             <a-accordion @click="fillItemArrays('characters')">
               Characters
             </a-accordion>
-            <a-accordion-text v-if="openTab=='characters'">
-              Персонажи
-              <ul>
+            <a-accordion-text v-if="openTab=='characters'" style="margin-left: 150px">
+              <img style="width: 200px" v-if="peopleList.length == 0" src="../assets/gifs/loaderline.gif"/>
+              <ul style="text-align: center">
                 <li v-for="str in peopleList"
                     v-bind:key="str">
                   {{str.name}}
@@ -46,9 +59,9 @@
             <a-accordion @click="fillItemArrays('species')">
               Species
             </a-accordion>
-            <a-accordion-text v-if="openTab=='species'">
-              Расы
-              <ul>
+            <a-accordion-text v-if="openTab=='species'" style="margin-left: 150px">
+              <img style="width: 200px" v-if="speciesList.length == 0" src="../assets/gifs/loaderline.gif"/>
+              <ul style="text-align: center">
                 <li v-for="str in speciesList"
                     v-bind:key="str">
                   {{str.name}}
@@ -58,9 +71,9 @@
             <a-accordion @click="fillItemArrays('vehicles')">
               Vehicles
             </a-accordion>
-            <a-accordion-text v-if="openTab=='vehicles'">
-              Техника
-              <ul>
+            <a-accordion-text v-if="openTab=='vehicles'" style="margin-left: 150px">
+              <img style="width: 200px" v-if="vehiclesList.length == 0" src="../assets/gifs/loaderline.gif"/>
+              <ul style="text-align: center">
                 <li v-for="str in vehiclesList"
                     v-bind:key="str">
                   {{str.name}}
@@ -68,45 +81,8 @@
               </ul>
             </a-accordion-text>
 
-<!--            <form>
-              <div class="accordion">
-                <input type="radio" name="planet" id="planet" checked />
-                <label for="planet"><span>Planets</span></label>
-                <div class="info">
-                  <ul>
-                    <li>0: "https://swapi.dev/api/planets/4/"</li>
-
-                    <li>1: "https://swapi.dev/api/planets/5/"</li>
-
-                    <li>2: "https://swapi.dev/api/planets/6/"</li>
-
-                    <li>3: "https://swapi.dev/api/planets/27/"</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="accordion">
-              <input type="radio" name="species" id="species"  />
-              <label for="species"><span>species</span></label>
-              <div class="info">
-                <p>
-                  0: "https://swapi.dev/api/species/1/"
-
-                  1: "https://swapi.dev/api/species/2/"
-
-                  2: "https://swapi.dev/api/species/3/"
-
-                  3: "https://swapi.dev/api/species/6/"
-
-                  4: "https://swapi.dev/api/species/7/"
-                </p>
-              </div>
-            </div>
-            </form>-->
-            <button v-on:click="view">Console</button>
-            <button v-on:click="closeW">Close</button>
           </slot>
         </div>
-
       </div>
     </div>
   </div>
@@ -114,6 +90,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import nl2br from '../plugins/nl2br'
 export default {
   name: "film",
   props:[
@@ -129,15 +106,13 @@ export default {
       speciesList: [],
       starshipsList: [],
       vehiclesList: [],
+      crawl:''
     }
   },
   methods:{
     ...mapActions(['getFromApi']),
     closeW(){
       this.$emit('closeW',false)
-    },
-    view(){
-      console.log(this.item)
     },
     async fillItemArrays(tab) {
       this.openTab = tab
@@ -179,7 +154,9 @@ export default {
 
       }
   },
-
+  beforeUpdate() {
+    this.crawl = nl2br(this.item.opening_crawl)
+  }
 
 }
 </script>

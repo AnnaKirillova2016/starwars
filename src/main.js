@@ -7,9 +7,11 @@ import 'mosha-vue-toastify/dist/style.css'
 import './assets/sass/style.sass'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faFilter)
+library.add(faTimesCircle)
 
 createApp(App)
     .use(store)

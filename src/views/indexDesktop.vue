@@ -65,9 +65,9 @@
 
       <a-shortView v-for="j in item"
                    v-bind:key="j"
-                    style="">
-        <p v-if="Active=='films'"><span v-on:click="popupW(j+1)">{{this.arrData.results[j].title}}</span></p>
-        <p v-else> <span v-on:click="showItem = !showItem">{{this.arrData.results[j].name}}</span></p>
+                   v-on:click="popupW(arrData.results[j].url)">
+        <p v-if="Active=='films'"><span >{{arrData.results[j].title}}</span></p>
+        <p v-else> <span>{{arrData.results[j].name}}</span></p>
           <p v-if="Active=='people'" ></p>
 
 
@@ -101,6 +101,16 @@
       :item="currItem"
       @closeW="itemClose"/>
 
+  <people v-if="Active=='people' && showItem==true"
+        :showItem = showItem
+        :item="currItem"
+        @closeW="itemClose"/>
+
+  <starship v-if="Active=='starships' && showItem==true"
+        :showItem = showItem
+        :item="currItem"
+        @closeW="itemClose"/>
+
   <footer><span style="margin-right: 20px">disigned for swapi.dev</span></footer>
 
 
@@ -109,11 +119,13 @@
 <script>
 import {mapActions, mapState} from "vuex"
 import sideBar from "../components/sidebar.vue"
-import film from "../components/film.vue";
+import film from "../components/film.vue"
+import people from '../components/people.vue'
+import starship from "../components/starship.vue"
 
 export default {
   name: "index",
-  components: {sideBar, film},
+  components: {sideBar, film, people, starship},
   data() {
     return {
       Active: 'films',
@@ -144,8 +156,8 @@ export default {
       this.showItem = close
       this.currItem = ''
     },
-    popupW(j) {
-      this.currItem = this.getItem(this.Active + '/' + j)
+    popupW(url) {
+      this.currItem = this.getItem(url.replace('https://swapi.dev/api/',''))
       this.showItem = !this.showItem
     },
     changeTab(tab) {
@@ -188,6 +200,7 @@ export default {
           this.renderArray.push([i, i += 1])
         }
       }
+      console.log(this.renderArray)
     },
     pagesCalc() {
       this.pages = parseInt(this.arrData.count) < 11 ? 0 : Math.ceil(parseInt(this.arrData.count) / 10)
