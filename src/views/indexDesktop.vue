@@ -66,11 +66,9 @@
       <a-shortView v-for="j in item"
                    v-bind:key="j"
                    v-on:click="popupW(arrData.results[j].url)">
-        <p v-if="Active=='films'"><span >{{arrData.results[j].title}}</span></p>
-        <p v-else> <span>{{arrData.results[j].name}}</span></p>
-          <p v-if="Active=='people'" ></p>
-
-
+        <view-card
+          :Active = "Active"
+          :item = "arrData.results[j]"/>
       </a-shortView>
 
 
@@ -122,10 +120,11 @@ import sideBar from "../components/sidebar.vue"
 import film from "../components/film.vue"
 import people from '../components/people.vue'
 import starship from "../components/starship.vue"
+import viewCard from "../components/viewCard.vue"
 
 export default {
   name: "index",
-  components: {sideBar, film, people, starship},
+  components: {sideBar, film, people, starship, viewCard},
   data() {
     return {
       Active: 'films',
@@ -187,7 +186,7 @@ export default {
       this.arrData = this.originList
       this.renderViewData()
       this.pagesCalc()
-      console.log(this.arrData)
+      //console.log(this.arrData)
     },
     renderViewData() {
       let count = this.arrData.results.length < 11 ? this.arrData.results.length : 10
@@ -200,7 +199,7 @@ export default {
           this.renderArray.push([i, i += 1])
         }
       }
-      console.log(this.renderArray)
+      //console.log(this.renderArray)
     },
     pagesCalc() {
       this.pages = parseInt(this.arrData.count) < 11 ? 0 : Math.ceil(parseInt(this.arrData.count) / 10)
@@ -239,7 +238,7 @@ export default {
       }
       this.renderViewData()
       this.pagesCalc()
-      console.log(this.arrData)
+      //console.log(this.arrData)
 
     },
     async getItem(link) {

@@ -1,7 +1,7 @@
 <template>
   <div class="modal-mask">
     <div class="modal-wrapper">
-      <div class="modal-container scrollbar">
+      <div class="modal-container scrollbar" style="height: 600px">
 
         <div class="modal-body">
           <div style="width: 100%;text-align: end">
@@ -12,23 +12,79 @@
 
             <div class="modal-header mh-mod">
               <slot name="header">
-                <h1 style="height: 47px"> {{item.name}}</h1>
-                <h1 style="height: 75px; font-size: 24px"> {{item.release_date}}</h1>
+                <h1 style="height: 60px"> {{item.name}}</h1>
               </slot>
             </div><br/>
-
-            <!--            Director: {{item.director}}-->
-            <div style="width: 100%; text-align: end">
-              Producer: {{item.producer}}
-            </div>
-            <div style="width: 100%; text-align: end">
-              Director: {{item.director}}
-            </div><br/><br/>
-
-            <div style="width: 100%; text-align: center">
-              <span v-html="crawl"/>
-            </div>
-
+            <table class="paleBlueRows">
+              <tbody>
+              <tr>
+                <td>model</td>
+                <td>{{item.model}}</td>
+              </tr>
+              <tr>
+                <td>manufacturer</td>
+                <td>{{item.manufacturer}}</td>
+              </tr>
+              <tr>
+                <td>cost in credits</td>
+                <td>{{item.cost_in_credits}}</td>
+              </tr>
+              <tr>
+                <td>length</td>
+                <td>{{item.length}}</td>
+              </tr>
+              <tr>
+                <td>max atmosphering speed</td>
+                <td>{{item.max_atmosphering_speed}}</td>
+              </tr>
+              <tr>
+                <td>crew</td>
+                <td>{{item.crew}}</td>
+              </tr>
+              <tr>
+                <td>passengers</td>
+                <td>{{item.passengers}}</td>
+              </tr>
+              <tr>
+                <td>cargo capacity</td>
+                <td>{{item.cargo_capacity}}</td>
+              </tr>
+              <tr>
+                <td>consumables</td>
+                <td>{{item.consumables}}</td>
+              </tr>
+              <tr>
+                <td>hyperdrive rating</td>
+                <td>{{item.hyperdrive_rating}}</td>
+              </tr>
+              <tr>
+                <td>MGLT</td>
+                <td>{{item.MGLT}}</td>
+              </tr>
+              <tr>
+                <td>starship class</td>
+                <td>{{item.starship_class}}</td>
+              </tr><tr>
+                <td>pilots</td>
+                <td>
+                  <ul>
+                    <li v-for="i in peopleList"
+                        v-bind:key="i">
+                      {{i.name}}</li>
+                  </ul>
+                </td>
+              </tr><tr>
+                <td>films</td>
+                <td>
+                  <ul>
+                    <li v-for="i in filmsList"
+                        v-bind:key="i">
+                      {{i.title}}</li>
+                  </ul>
+                </td>
+              </tr>
+              </tbody>
+            </table>
             <br/>
 
 
@@ -50,13 +106,9 @@ export default {
   ],
   data(){
     return{
-      openTab: '',
-      planetList: [],
       peopleList: [],
       filmsList: [],
-      speciesList: [],
-      starshipsList: [],
-      vehiclesList: [],
+      filled: false
     }
   },
   methods:{
@@ -64,31 +116,26 @@ export default {
     closeW(){
       this.$emit('closeW',false)
     },
-    async fillItemArrays(tab) {
-      this.openTab = tab
-      if (this.openTab == 'planets' && this.item['planets']) {
-        this.planetList = await this.getNames(this.item.planets)
+    async fillItemArrays() {
+
+      if(this.filled){
+        return
       }
-      if (this.openTab == 'characters' && this.item['characters']) {
-        this.peopleList = await this.getNames(this.item.characters)
-        console.log(this.peopleList)
+
+      if ( this.item['pilots']) {
+        if(this.item.pilots.length > 0) {
+          this.peopleList = await this.getNames(this.item.pilots)
+        }
+        //console.log(this.peopleList)
       }
-      if (this.openTab == 'films' && this.item['films']) {
-        this.filmsList = await this.getNames(this.item.films)
-        console.log(this.filmsList)
+      if (this.item['films']) {
+        if(this.item.films.length > 0) {
+          this.filmsList = await this.getNames(this.item.films)
+        }
+        this.filled = true
+        //console.log(this.filmsList)
       }
-      if (this.openTab == 'species' && this.item['species']) {
-        this.speciesList = await this.getNames(this.item.species)
-        console.log(this.speciesList)
-      }
-      if (this.openTab == 'starships' && this.item['starships']) {
-        this.starshipsList = await this.getNames(this.item.starships)
-        console.log(this.starshipsList)
-      }
-      if (this.openTab == 'vehicles' && this.item['vehicles']) {
-        this.vehiclesList = await this.getNames(this.item.vehicles)
-        console.log(this.vehiclesList)
-      }
+
     },
     async getNames(arr){
       let res = []
@@ -103,7 +150,11 @@ export default {
       return res
 
     }
+  },
+  beforeUpdate() {
+    this.fillItemArrays()
   }
+
 }
 </script>
 

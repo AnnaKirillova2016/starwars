@@ -12,13 +12,13 @@
 
             <div class="modal-header mh-mod">
               <slot name="header">
-                <h1 style="height: 47px">Star Wars episode: {{item.episode_id}}.</h1>
-                <h1 style="height: 47px"> {{item.title}}</h1>
-                <h1 style="height: 70px; font-size: 24px"> {{item.release_date}}</h1>
+                <h1 class=".h1-mod" style="height: 47px">Star Wars episode: {{item.episode_id}}.</h1>
+                <h1 class=".h1-mod" style="height: 47px; "> {{item.title}}</h1>
+                <h1 class=".h1-mod" style="height: 55px; font-size: 24px"> {{item.release_date}}</h1>
               </slot>
-            </div><br/>
+            </div>
 
-<!--            Director: {{item.director}}-->
+
             <div style="width: 100%; text-align: end">
               Producer: {{item.producer}}
             </div>
