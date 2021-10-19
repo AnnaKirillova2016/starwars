@@ -10,12 +10,17 @@
       </div>
     </a-bar>
   </a-navBarDesk>
-  <mobile-menu  v-if="openMenu"></mobile-menu>
+  <mobile-menu  v-if="openMenu"
+    :active="Active"
+    @result="resUpd"
+    @ntab="resChTAb"
+  ></mobile-menu>
   <a-divider style="height: 105px"/>
   <a-content>
     <a-col class="mCol" v-for="(item, index) in arrData.results"
            v-bind:key="index">
-      <a-shortView class="mCard">{{item.title}}</a-shortView>
+      <a-shortView v-if="Active=='films'" class="mCard">{{item.title}}</a-shortView>
+      <a-shortView v-else class="mCard">{{item.name}}</a-shortView>
     </a-col>
   </a-content>
 </template>
@@ -46,6 +51,14 @@ export default {
       await this.getFromApi(req)
       this.arrData = this.originList
       //console.log(this.arrData)
+    },
+    resUpd(result){
+      this.arrData=result
+    },
+    resChTAb(ntab){
+      this.Active=ntab
+      this.openMenu = false
+      this.getArrayData(this.Active)
     }
   },
   mounted() {
