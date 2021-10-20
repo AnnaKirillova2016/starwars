@@ -1,5 +1,5 @@
 <template>
- <div class="modal-body mView" >
+  <div class="modal-body mView">
     <div style="width: 100%;text-align: end">
       <font-awesome-icon icon="times-circle" v-on:click="closeW" class="close-btn">
       </font-awesome-icon>
@@ -8,69 +8,79 @@
 
       <div class="modal-header mh-mod">
         <slot name="header">
-          <h1 class=".h1-mod" style="height: 47px">Star Wars</h1>
-          <h1 class=".h1-mod" style="height: 47px">episode: {{item.episode_id}}.</h1>
-          <h1 class=".h1-mod" style="height: 47px; "> {{item.title}}</h1>
-          <h1 class=".h1-mod" style="height: 55px; font-size: 24px"> {{item.release_date}}</h1>
+          <h1>{{item.name}}</h1>
+          <!--                <button @click="terminal">console</button>-->
         </slot>
-      </div>
+      </div><br/>
 
-
-      <div style="width: 97%; text-align: end">
-        Producer: {{item.producer}}
-      </div>
-      <div style="width: 97%; text-align: end">
-        Director: {{item.director}}
-      </div><br/><br/>
-
-      <div style="width: 100%; text-align: center">
-        <span v-html="crawl"/>
-      </div>
-
-      <br/>
-
-      <a-accordion class="a-accordion-m" @click="fillItemArrays('planets')">
-        Planets
+      <table class="paleBlueRows" style="width: 94%; margin-left: 3%">
+        <tbody>
+        <tr>
+          <td>gender</td>
+          <td>{{item.gender}}</td>
+        </tr>
+        <tr>
+          <td>birth year</td>
+          <td>{{item.birth_year}}</td>
+        </tr>
+        <tr>
+          <td>eye color</td>
+          <td>{{item.eye_color}}</td>
+        </tr>
+        <tr>
+          <td>hair</td>
+          <td>{{item.hair_color}}</td>
+        </tr>
+        <tr>
+          <td>height</td>
+          <td>{{item.height}}</td>
+        </tr>
+        <tr>
+          <td>mass</td>
+          <td>{{item.mass}}</td>
+        </tr>
+        <tr>
+          <td>skin color</td>
+          <td>{{item.skin_color}}</td>
+        </tr>
+        <tr>
+          <td>homeworld</td>
+          <td>{{homeworld}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <a-divider style="height: 30px"/>
+      <a-accordion @click="fillItemArrays('films')" class="a-accordion-m">
+        films
       </a-accordion>
-      <a-accordion-text v-if="openTab=='planets'">
-        <img style="width: 100%" v-if="planetList.length == 0" src="../assets/gifs/loaderline.gif"/>
+      <a-accordion-text v-if="openTab=='films'" >
+        <img style="width: 200px" v-if="isLoad" src="../assets/gifs/loaderline.gif"/>
         <ul style="text-align: center">
-          <li v-for="str in this.planetList"
+          <li v-for="str in this.filmsList"
+              v-bind:key="str">
+            <span>Star wars episode {{str.episode_id}}. {{str.title}}</span>
+          </li>
+        </ul>
+      </a-accordion-text>
+
+      <a-accordion @click="fillItemArrays('starships')" class="a-accordion-m">
+        Starships
+      </a-accordion>
+      <a-accordion-text v-if="openTab=='starships'">
+        <img style="width: 200px" v-if="isLoad" src="../assets/gifs/loaderline.gif"/>
+        <ul style="margin-left: 150px">
+          <li v-for="str in starshipsList"
               v-bind:key="str">
             {{str.name}}
           </li>
         </ul>
       </a-accordion-text>
-      <a-accordion class="a-accordion-m" @click="fillItemArrays('characters')">
-        Characters
-      </a-accordion>
-      <a-accordion-text v-if="openTab=='characters'" >
-        <img style="width: 100%" v-if="peopleList.length == 0" src="../assets/gifs/loaderline.gif"/>
-        <ul style="text-align: center">
-          <li v-for="str in peopleList"
-              v-bind:key="str">
-            {{str.name}}
-          </li>
-        </ul>
-      </a-accordion-text>
-      <a-accordion class="a-accordion-m" @click="fillItemArrays('species')">
-        Species
-      </a-accordion>
-      <a-accordion-text v-if="openTab=='species'" >
-        <img style="width: 100%" v-if="speciesList.length == 0" src="../assets/gifs/loaderline.gif"/>
-        <ul style="text-align: center">
-          <li v-for="str in speciesList"
-              v-bind:key="str">
-            {{str.name}}
-          </li>
-        </ul>
-      </a-accordion-text>
-      <a-accordion class="a-accordion-m" @click="fillItemArrays('vehicles')">
+      <a-accordion @click="fillItemArrays('vehicles')" class="a-accordion-m">
         Vehicles
       </a-accordion>
       <a-accordion-text v-if="openTab=='vehicles'">
-        <img style="width: 100%" v-if="vehiclesList.length == 0" src="../assets/gifs/loaderline.gif"/>
-        <ul style="text-align: center">
+        <img style="width: 200px" v-if="isLoad" src="../assets/gifs/loaderline.gif"/>
+        <ul style="margin-left: 150px">
           <li v-for="str in vehiclesList"
               v-bind:key="str">
             {{str.name}}
@@ -83,17 +93,16 @@
 </template>
 
 <script>
-import {mapActions} from "vuex"
-import nl2br from "../plugins/nl2br"
+import {mapActions} from "vuex";
 
 export default {
-  name: "mFilm",
+  name: "mPeople",
   props:[
     'showItem',
     'item'
   ],
-  data() {
-    return {
+  data(){
+    return{
       openTab: '',
       planetList: [],
       peopleList: [],
@@ -101,15 +110,20 @@ export default {
       speciesList: [],
       starshipsList: [],
       vehiclesList: [],
-      crawl: ''
+      isLoad: true,
+      homeworld: ''
     }
   },
   methods:{
     ...mapActions(['getFromApi']),
+    terminal(){
+      console.log(this.item)
+    },
     closeW(){
       this.$emit('closeW',false)
     },
     async fillItemArrays(tab) {
+      this.isLoad = true
       this.openTab = tab
       if (this.openTab == 'planets' && this.item['planets']) {
         this.planetList = await this.getNames(this.item.planets)
@@ -134,6 +148,7 @@ export default {
         this.vehiclesList = await this.getNames(this.item.vehicles)
         console.log(this.vehiclesList)
       }
+      this.isLoad = false
     },
     async getNames(arr){
       let res = []
@@ -147,10 +162,18 @@ export default {
       }
       return res
 
+    },
+    async getHomeworld(){
+      if(this.item['homeworld']) {
+        let link = this.item.homeworld.replace('https://swapi.dev/api/','')
+        let req = {"url":link,"single":true}
+        let res = await this.getFromApi(req)
+        this.homeworld = res.name
+      }
     }
   },
   beforeUpdate() {
-    this.crawl = nl2br(this.item.opening_crawl)
+    this.getHomeworld()
   }
 }
 </script>

@@ -49,6 +49,10 @@
          :showItem = showItem
          :item="currItem"
          @closeW="itemClose"/>
+  <mPeople v-if="Active=='people' && showItem==true"
+          :showItem = showItem
+          :item="currItem"
+          @closeW="itemClose"/>
 </template>
 
 <script>
@@ -56,11 +60,12 @@ import mobileMenu from "../components/mobileMenu.vue"
 import {mapActions, mapState} from "vuex"
 import viewCard from "../components/viewCard.vue"
 import mFilm from "../components/mFilm.vue"
+import mPeople from "../components/mPeople.vue"
 
 export default {
   name: "indexMobile",
   components: {
-    mobileMenu, viewCard, mFilm
+    mobileMenu, viewCard, mFilm, mPeople
   },
   computed:{
     ...mapState(["originList"]),
