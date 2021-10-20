@@ -17,14 +17,15 @@
     @ntab="resChTAb"
   ></mobile-menu>
   <a-divider style="height: 105px"/>
-  <a-content>
+  <a-content v-if="showItem==false">
     <a-col class="mCol" v-for="(item, index) in arrData.results"
            v-bind:key="index">
       <a-shortView class="mCard">
         <view-card
           :Active = "Active"
           :mobile ='true'
-          :item = "item"/>
+          :item = "item"
+          v-on:click="popupW(item.url)"/>
       </a-shortView>
     </a-col>
 
@@ -44,17 +45,22 @@
       </a-paginator>
     </a-col>
   </a-content>
+  <mFilm v-if="Active=='films' && showItem==true"
+         :showItem = showItem
+         :item="currItem"
+         @closeW="itemClose"/>
 </template>
 
 <script>
 import mobileMenu from "../components/mobileMenu.vue"
 import {mapActions, mapState} from "vuex"
 import viewCard from "../components/viewCard.vue"
+import mFilm from "../components/mFilm.vue"
 
 export default {
   name: "indexMobile",
   components: {
-    mobileMenu, viewCard
+    mobileMenu, viewCard, mFilm
   },
   computed:{
     ...mapState(["originList"]),
@@ -66,11 +72,21 @@ export default {
       arrData:[],
       pages: 0,
       currentPage: 0,
-      sText: ''
+      sText: '',
+      currItem: '',
+      showItem: false
     }
   },
   methods: {
     ...mapActions(['getFromApi']),
+    itemClose(close) {
+      this.showItem = close
+      this.currItem = ''
+    },
+    popupW(url) {
+      this.currItem = this.getItem(url.replace('https://swapi.dev/api/',''))
+      this.showItem = !this.showItem
+    },
     async getArrayData(link){
       let req = {url: link, single: false}
       await this.getFromApi(req)
@@ -113,6 +129,11 @@ export default {
       let link = this.sText != '' ? '/?search=' + this.sText + '&page=' + index : '/?page=' + index
       this.getArrayData(this.Active + link)
       this.currentPage = index
+    },
+    async getItem(link) {
+      let req = {url: link, single: true}
+      let result = await this.getFromApi(req)
+      this.currItem = result
     },
   },
   mounted() {
