@@ -54,7 +54,21 @@ export default {
       //console.log(this.arrData)
     },
     resUpd(result){
-      this.arrData=result
+      if (result == null) {
+        this.arrData = this.originList
+        this.$moshaToast('Nothing found!',
+            {
+              timeout: 2500,
+              position: 'bottom-right',
+              showIcon: 'true',
+              hideProgressBar: 'true',
+              type: 'warning',
+              transition: 'zoom',
+              swipeClose: 'true',
+            })
+      } else {
+        this.arrData = result
+      }
     },
     resChTAb(ntab){
       this.Active=ntab
