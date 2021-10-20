@@ -115,7 +115,7 @@ export default {
     ...mapActions(['getFromApi']),
     find(){
       if (this.search != '') {
-        this.getArrayData(this.active + '/?search=' + this.search)
+        this.getArrayData(this.active + '/?search=' + this.search, true)
       } else {
         this.$moshaToast('Enter text to search!',
             {
@@ -129,13 +129,17 @@ export default {
             })
       }
     },
-    async getArrayData(link) {
+    async getArrayData(link, find = false) {
       let arrData =[]
       let req = {url: link, single: false}
       await this.getFromApi(req)
       arrData = this.originList
-      this.$emit('result',arrData)
-      console.log(this.arrData)
+      if(!find) {
+        this.$emit('result', arrData)
+      }else{
+        this.$emit('result', {'sText':this.search,'arrData':arrData})
+      }
+      //console.log(this.arrData)
     },
     isActive(tab){
       this.$emit('ntab',tab)
