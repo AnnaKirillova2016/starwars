@@ -7,7 +7,7 @@
         <h1 class="viewCard" style="height: 35px"> {{item.title}} </h1>
       </div>
       <div v-else>
-        <h1 class="viewCard" style="margin-top: 100px;"> {{item.name}} </h1>
+        <h1 class="viewCard" style="margin-top: 60px;"> {{item.name}} </h1>
       </div>
     </div>
     <div v-else class="modal-header">
