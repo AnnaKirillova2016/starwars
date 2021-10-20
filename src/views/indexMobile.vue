@@ -12,6 +12,7 @@
   </a-navBarDesk>
   <mobile-menu  v-if="openMenu"
     :active="Active"
+    :arr-data="arrData"
     @result="resUpd"
     @ntab="resChTAb"
   ></mobile-menu>
